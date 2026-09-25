@@ -4,6 +4,28 @@
     <a href="{{ route('activities.create') }}">
         Tambah Aktivitas
     </a>
+    <form method="GET" action="{{ route('activities.index') }}">
+        <label for="status">Status</label>
+
+        <select name="status" id="status">
+            <option value="">Semua</option>
+
+            <option value="Planned" @selected($status === 'Planned')>
+                Planned
+            </option>
+
+            <option value="Ongoing" @selected($status === 'Ongoing')>
+                Ongoing
+            </option>
+
+            <option value="Done" @selected($status === 'Done')>
+                Done
+            </option>
+        </select>
+        <button type="submit">
+            Filter
+        </button>
+    </form>
     @forelse ($activities as $activity)
         <article class="card">
             <h2>
@@ -17,7 +39,8 @@
                 Edit
             </a>
 
-            <form action="{{ route('activities.destroy', $activity) }}" method="POST" style="display:inline; margin-left: 0.4rem;"
+            <form action="{{ route('activities.destroy', $activity) }}" method="POST"
+                style="display:inline; margin-left: 0.4rem;"
                 onsubmit="return confirm('Yakin ingin menghapus aktivitas ini?')">
                 @csrf
                 @method('DELETE')
