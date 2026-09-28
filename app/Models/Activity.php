@@ -12,11 +12,16 @@ class Activity extends Model
         'activity_date',
         'category',
         'status',
+        'category_id'
     ];
     protected function casts(): array
     {
         return [
             'activity_date' => 'date',
         ];
+    }
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
     }
 }
