@@ -7,6 +7,9 @@
     <a href="{{ route('categories.index') }}">
         Lihat Kategori
     </a>
+    <a href="{{ route('activities.trash') }}">
+        Lihat Trash
+    </a>
     <form method="GET" action="{{ route('activities.index') }}" style="margin-bottom: 20px;">
         <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari kode atau judul...">
 
@@ -54,6 +57,14 @@
                     <button type="submit">Selesaikan (Complete)</button>
                 </form>
             @endif
+            <form action="{{ route('activities.destroy', $activity) }}" method="POST" style="display:inline;"
+                onsubmit="return confirm('Apakah Anda yakin ingin menghapus aktivitas ini?')">
+                @csrf
+                @method('DELETE')
+                <button type="submit">
+                    Hapus
+                </button>
+            </form>
 
             <a href="{{ route('activities.edit', $activity) }}">Edit</a>
         </article>

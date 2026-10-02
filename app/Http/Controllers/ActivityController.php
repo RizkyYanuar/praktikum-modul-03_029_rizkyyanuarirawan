@@ -111,4 +111,18 @@ class ActivityController extends Controller
         $activity->update(['status' => 'Done']);
         return back()->with('success', 'Kegiatan ditandai selesai.');
     }
+
+    public function trash()
+    {
+        $activities = Activity::onlyTrashed()->with('category')->get();
+        return view('activities.trash', compact('activities'));
+    }
+
+    public function restore($id)
+    {
+        $activity = Activity::onlyTrashed()->findOrFail($id);
+        $activity->restore();
+
+        return redirect()->route('activities.trash')->with('success', 'Kegiatan berhasil dipulihkan.');
+    }
 }
