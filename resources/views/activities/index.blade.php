@@ -56,6 +56,7 @@
                     @csrf @method('PATCH')
                     <button type="submit">Selesaikan (Complete)</button>
                 </form>
+                <a href="{{ route('registrations.create', $activity) }}">Register</a>
             @endif
             <form action="{{ route('activities.destroy', $activity) }}" method="POST" style="display:inline;"
                 onsubmit="return confirm('Apakah Anda yakin ingin menghapus aktivitas ini?')">

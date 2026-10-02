@@ -1,11 +1,6 @@
-<!DOCTYPE html>
-<html>
+@extends('layouts.app')
 
-<head>
-    <title>Tambah Kategori</title>
-</head>
-
-<body>
+@section('content')
     <h1>Tambah Kategori</h1>
 
     <form action="{{ route('categories.store') }}" method="POST">
@@ -20,6 +15,4 @@
         <button type="submit">Simpan</button>
         <a href="{{ route('categories.index') }}">Batal</a>
     </form>
-</body>
-
-</html>
+@endsection

@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\RegistrationController;
+
 // use Illuminate\Support\Facades\DB;
 // use App\Models\Activity;
 
@@ -15,7 +17,7 @@ Route::patch('/activities/{activity}/publish', [ActivityController::class, 'publ
 Route::patch('/activities/{activity}/complete', [ActivityController::class, 'complete'])->name('activities.complete');
 Route::resource('activities', ActivityController::class);
 Route::resource('categories', CategoryController::class);
-
+Route::resource('registrations', RegistrationController::class);
 
 
 // Route::get('/eksperimen-n1', function () {
