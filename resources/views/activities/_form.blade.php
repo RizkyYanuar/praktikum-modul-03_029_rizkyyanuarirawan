@@ -49,7 +49,7 @@
     @enderror
 </div>
 
-<div>
+{{-- <div>
     <select name="status" id="status">
         @foreach (['Planned', 'Ongoing', 'Done'] as $status)
             <option value="{{ $status }}" @selected(old('status', $activity->status ?? 'Planned') === $status)>
@@ -61,7 +61,7 @@
         <p class="error">{{ $message }}</p>
     @enderror
 
-</div>
+</div> --}}
 
 <button type="submit">
     {{ $submitLabel ?? 'Simpan' }}

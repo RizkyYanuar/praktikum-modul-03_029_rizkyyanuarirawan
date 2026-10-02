@@ -10,27 +10,33 @@ use Illuminate\View\View;
 use App\Services\ActivityService;
 use DomainException;
 use App\Models\Category;
+use Illuminate\Http\Request;
 
 class ActivityController extends Controller
 {
-    public function index(): View
+    public function index(Request $request): View
     {
+        $categories = Category::all();
+
         $validStatus = ['Planned', 'Ongoing', 'Done'];
-
-        $status = request('status');
-
+        $status = $request->input('status');
         $status = in_array($status, $validStatus, true) ? $status : null;
 
         $activities = Activity::query()
-            ->when($status, function ($query) use ($status) {
-                $query->where('status', $status);
-            })
-            ->latest()
-            ->get();
+            ->with('category')
+            ->search($request->input('search'))
+            ->filter([
+                'category_id' => $request->input('category_id'),
+                'status' => $status
+            ])
+            ->sortDate($request->input('sort'))
+            ->paginate(10)
+            ->withQueryString();
 
         return view('activities.index', compact(
             'activities',
-            'status',
+            'categories',
+            'status'
         ));
     }
 
@@ -57,7 +63,11 @@ class ActivityController extends Controller
         StoreActivityRequest $request,
         ActivityService $service
     ): RedirectResponse {
-        $activity = $service->create($request->validated());
+        $validated = $request->validated();
+
+        $validated['status'] = 'Planned';
+
+        $activity = $service->create($validated);
         return to_route('activities.show', $activity)
             ->with('success', 'Kegiatan berhasil dibuat.');
     }
@@ -84,5 +94,21 @@ class ActivityController extends Controller
         return redirect()
             ->route('activities.index')
             ->with('success', 'Aktivitas berhasil dihapus.');
+    }
+
+    public function publish(Activity $activity)
+    {
+        if ($activity->status !== 'Planned') {
+            return back()->with('error', 'Hanya kegiatan Planned yang bisa dipublish.');
+        }
+
+        $activity->update(['status' => 'Ongoing']);
+        return back()->with('success', 'Kegiatan berhasil dipublish.');
+    }
+
+    public function complete(Activity $activity)
+    {
+        $activity->update(['status' => 'Done']);
+        return back()->with('success', 'Kegiatan ditandai selesai.');
     }
 }

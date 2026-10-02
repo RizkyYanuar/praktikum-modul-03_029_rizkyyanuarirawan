@@ -9,3 +9,5 @@ Route::get('/', function () {
 });
 Route::resource('activities', ActivityController::class);
 Route::resource('categories', CategoryController::class);
+Route::patch('/activities/{activity}/publish', [\App\Http\Controllers\ActivityController::class, 'publish'])->name('activities.publish');
+Route::patch('/activities/{activity}/complete', [\App\Http\Controllers\ActivityController::class, 'complete'])->name('activities.complete');

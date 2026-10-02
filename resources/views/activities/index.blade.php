@@ -7,53 +7,62 @@
     <a href="{{ route('categories.index') }}">
         Lihat Kategori
     </a>
-    <form method="GET" action="{{ route('activities.index') }}">
-        <label for="status">Status</label>
+    <form method="GET" action="{{ route('activities.index') }}" style="margin-bottom: 20px;">
+        <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari kode atau judul...">
 
-        <select name="status" id="status">
-            <option value="">Semua</option>
-
-            <option value="Planned" @selected($status === 'Planned')>
-                Planned
-            </option>
-
-            <option value="Ongoing" @selected($status === 'Ongoing')>
-                Ongoing
-            </option>
-
-            <option value="Done" @selected($status === 'Done')>
-                Done
-            </option>
+        <select name="category_id">
+            <option value="">Semua Kategori</option>
+            @foreach ($categories as $category)
+                <option value="{{ $category->id }}" @selected(request('category_id') == $category->id)>
+                    {{ $category->name }}
+                </option>
+            @endforeach
         </select>
-        <button type="submit">
-            Filter
-        </button>
+
+        <select name="status">
+            <option value="">Semua Status</option>
+            <option value="Planned" @selected(request('status') === 'Planned')>Planned</option>
+            <option value="Ongoing" @selected(request('status') === 'Ongoing')>Ongoing</option>
+            <option value="Done" @selected(request('status') === 'Done')>Done</option>
+        </select>
+
+        <select name="sort">
+            <option value="terbaru" @selected(request('sort') === 'terbaru')>Start At Terbaru</option>
+            <option value="terlama" @selected(request('sort') === 'terlama')>Start At Terlama</option>
+        </select>
+
+        <button type="submit">Terapkan Kombinasi Filter</button>
     </form>
     @forelse ($activities as $activity)
         <article class="card">
-            <h2>
-                <a href="{{ route('activities.show', $activity) }}">
+            <h2><a href="{{ route('activities.show', $activity) }}">
                     {{ $activity->title }}
-                </a>
-            </h2>
-            <p>{{ $activity->activity_date->format('d M Y') }}</p>
-            <p>Status: {{ $activity->status }}</p>
-            <a href="{{ route('activities.edit', $activity) }}">
-                Edit
-            </a>
+                </a></h2>
+            <p>Kategori: {{ $activity->category->name }} | Status: {{ $activity->status }}</p>
 
-            <form action="{{ route('activities.destroy', $activity) }}" method="POST"
-                style="display:inline; margin-left: 0.4rem;"
-                onsubmit="return confirm('Yakin ingin menghapus aktivitas ini?')">
-                @csrf
-                @method('DELETE')
+            <!-- Tombol Aksi Sesuai Status -->
+            @if ($activity->status === 'Planned')
+                <form action="{{ route('activities.publish', $activity) }}" method="POST" style="display:inline;">
+                    @csrf @method('PATCH')
+                    <button type="submit">Publish</button>
+                </form>
+            @endif
 
-                <button type="submit">
-                    Hapus
-                </button>
-            </form>
+            @if ($activity->status === 'Ongoing')
+                <form action="{{ route('activities.complete', $activity) }}" method="POST" style="display:inline;">
+                    @csrf @method('PATCH')
+                    <button type="submit">Selesaikan (Complete)</button>
+                </form>
+            @endif
+
+            <a href="{{ route('activities.edit', $activity) }}">Edit</a>
         </article>
     @empty
-        <p>Belum ada kegiatan.</p>
+        <p>Data tidak ditemukan.</p>
     @endforelse
+
+    <!-- Menampilkan Pagination (Pekerjaan 8) -->
+    <div style="margin-top: 20px;">
+        {{ $activities->links() }}
+    </div>
 @endsection
