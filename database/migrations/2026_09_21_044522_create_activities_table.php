@@ -18,7 +18,10 @@ return new class extends Migration
             $table->date('activity_date');
             $table->string('status', 20)->default('Planned');
             $table->timestamps();
+
+            $table->softDeletes();
         });
+        
     }
 
     /**

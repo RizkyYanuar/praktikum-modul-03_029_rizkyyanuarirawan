@@ -9,6 +9,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 use App\Services\ActivityService;
 use DomainException;
+use App\Models\Category;
 
 class ActivityController extends Controller
 {
@@ -35,7 +36,8 @@ class ActivityController extends Controller
 
     public function create(): View
     {
-        return view('activities.create');
+        $categories = Category::all();
+        return view('activities.create', compact('categories'));
     }
 
 
@@ -46,7 +48,9 @@ class ActivityController extends Controller
 
     public function edit(Activity $activity): View
     {
-        return view('activities.edit', compact('activity'));
+        $categories = Category::all();
+
+        return view('activities.edit', compact('activity', 'categories'));
     }
 
     public function store(

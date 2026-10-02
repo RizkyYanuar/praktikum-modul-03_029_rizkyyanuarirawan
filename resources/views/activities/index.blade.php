@@ -4,6 +4,9 @@
     <a href="{{ route('activities.create') }}">
         Tambah Aktivitas
     </a>
+    <a href="{{ route('categories.index') }}">
+        Lihat Kategori
+    </a>
     <form method="GET" action="{{ route('activities.index') }}">
         <label for="status">Status</label>
 
