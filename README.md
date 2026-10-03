@@ -9,27 +9,39 @@ NIM: 251511029
 app/
 ├── Http/
 │   ├── Controllers/
-│   │   ├── ActivityController.php   # Mengatur flow HTTP Request & Response
-│   │   └── Controller.php
+│   │   ├── ActivityController.php      # Mengatur flow HTTP Request & Response (Kegiatan)
+│   │   ├── CategoryController.php      # Mengatur flow HTTP Request & Response (Kategori)
+│   │   ├── Controller.php
+│   │   └── RegistrationController.php  # Mengatur flow HTTP Request & Response (Registrasi)
 │   └── Requests/
-│       ├── StoreActivityRequest.php  # Validasi input pembuatan aktivitas
-│       └── UpdateActivityRequest.php # Validasi input pembaruan aktivitas
+│       ├── StoreActivityRequest.php    # Validasi input pembuatan aktivitas
+│       └── UpdateActivityRequest.php   # Validasi input pembaruan aktivitas
 ├── Models/
-│   ├── Activity.php                  # Model Eloquent + Query Scope Filter
+│   ├── Activity.php                    # Model Eloquent + Query Scope Filter (Kegiatan)
+│   ├── Category.php                    # Model Eloquent (Kategori)
+│   ├── Registration.php                # Model Eloquent (Registrasi)
 │   └── User.php
 ├── Providers/
 │   └── AppServiceProvider.php
 └── Services/
-    └── ActivityService.php           # Encapsulation logika bisnis & persistence
+    └── ActivityService.php             # Encapsulation logika bisnis & persistence
 resources/
 └── views/
     ├── activities/
-    │   ├── _form.blade.php           # Partial view untuk form create & edit
-    │   ├── create.blade.php          # Tampilan tambah kegiatan
-    │   ├── edit.blade.php            # Tampilan edit kegiatan
-    │   ├── index.blade.php           # Tampilan daftar kegiatan + Filter
-    │   └── show.blade.php            # Tampilan rincian/detail kegiatan
-    └── layouts/                      # Layout utama aplikasi (Blade)
+    │   ├── _form.blade.php             # Partial view untuk form create & edit
+    │   ├── create.blade.php            # Tampilan tambah kegiatan
+    │   ├── edit.blade.php              # Tampilan edit kegiatan
+    │   ├── index.blade.php             # Tampilan daftar kegiatan + Filter
+    │   ├── show.blade.php              # Tampilan rincian/detail kegiatan
+    │   └── trash.blade.php             # Tampilan daftar kegiatan yang dihapus (Soft Delete)
+    ├── categories/
+    │   ├── create.blade.php            # Tampilan tambah kategori
+    │   ├── edit.blade.php              # Tampilan edit kategori
+    │   └── index.blade.php             # Tampilan daftar kategori
+    ├── layouts/                        # Layout utama aplikasi (Blade)
+    ├── registrations/
+    │   └── create.blade.php            # Tampilan form pendaftaran/registrasi
+    └── welcome.blade.php               # Tampilan halaman awal/utama
 ```
 
 ---
