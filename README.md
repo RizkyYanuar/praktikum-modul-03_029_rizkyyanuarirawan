@@ -40,8 +40,7 @@ resources/
     │   └── index.blade.php             # Tampilan daftar kategori
     ├── layouts/                        # Layout utama aplikasi (Blade)
     ├── registrations/
-    │   └── create.blade.php            # Tampilan form pendaftaran/registrasi
-    └── welcome.blade.php               # Tampilan halaman awal/utama
+        └── create.blade.php            # Tampilan form pendaftaran/registrasi
 ```
 
 ---
